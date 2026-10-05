@@ -1,0 +1,58 @@
+[
+  {
+    "id": "task-requirements",
+    "title": "Hoàn thiện đặc tả yêu cầu",
+    "description": "Tổng hợp chức năng chính, vai trò người dùng và luồng xử lý cho hệ thống quản lý công việc.",
+    "status": "todo",
+    "priority": "high",
+    "owner": "Trần Kỳ Đại",
+    "dueDate": "2026-10-07",
+    "order": 10,
+    "tags": ["Phân tích", "Báo cáo"],
+    "createdAt": "2026-10-05T00:00:00.000Z",
+    "updatedAt": "2026-10-05T00:00:00.000Z",
+    "userId": "user-dai"
+  },
+  {
+    "id": "task-demo-video",
+    "title": "Quay video demo sản phẩm",
+    "description": "Ghi lại luồng đăng nhập, tạo công việc, chuyển trạng thái và cập nhật chi tiết công việc.",
+    "status": "done",
+    "priority": "medium",
+    "owner": "Trần Kỳ Đại",
+    "dueDate": "2026-10-16",
+    "order": 10,
+    "tags": ["Demo", "Nộp bài"],
+    "createdAt": "2026-10-05T00:00:00.000Z",
+    "updatedAt": "2026-10-05T00:00:00.000Z",
+    "userId": "user-dai"
+  },
+  {
+    "id": "task-kanban-ui",
+    "title": "Thiết kế bảng Kanban",
+    "description": "Tạo giao diện theo dõi công việc theo trạng thái, hỗ trợ kéo thả và cập nhật nhanh.",
+    "status": "doing",
+    "priority": "medium",
+    "owner": "Lê Văn Hoàng",
+    "dueDate": "2026-10-10",
+    "order": 10,
+    "tags": ["Giao diện", "Kanban"],
+    "createdAt": "2026-10-05T00:00:00.000Z",
+    "updatedAt": "2026-10-05T00:00:00.000Z",
+    "userId": "user-hoang"
+  },
+  {
+    "id": "task-report",
+    "title": "Rà soát bảng phủ kỹ thuật",
+    "description": "Đối chiếu các chức năng đã làm với yêu cầu ba tầng của môn học và chuẩn bị minh chứng.",
+    "status": "review",
+    "priority": "high",
+    "owner": "Lê Hoài Lộc",
+    "dueDate": "2026-10-14",
+    "order": 10,
+    "tags": ["Tài liệu", "Kiểm tra"],
+    "createdAt": "2026-10-05T00:00:00.000Z",
+    "updatedAt": "2026-10-05T00:00:00.000Z",
+    "userId": "user-loc"
+  }
+]
