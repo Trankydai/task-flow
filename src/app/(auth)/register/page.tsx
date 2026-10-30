@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { registerAction } from "@/app/actions";
+import { getCurrentUser } from "@/lib/auth";
 
 export const metadata = {
   title: "Đăng ký"
@@ -17,6 +19,12 @@ export default async function RegisterPage({
 }: {
   searchParams: Promise<{ error?: string | string[] }>;
 }) {
+  const user = await getCurrentUser();
+
+  if (user) {
+    redirect("/dashboard");
+  }
+
   const { error } = await searchParams;
   const errorCode = Array.isArray(error) ? error[0] : error;
 

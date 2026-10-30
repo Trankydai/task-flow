@@ -9,17 +9,17 @@ Bảng này bám theo yêu cầu 3 tầng trong tài liệu môn học. Khi nộ
 | 3 | Lấy dữ liệu phía server trong Server Component | Tầng 1A | Dashboard đọc task theo user bằng `getTasksCached(user.id)` | `src/lib/task-store.ts`, `src/app/(workspace)/dashboard/page.tsx` | Đã có |
 | 4 | Luồng render chính | Tầng 1A | Request `/dashboard` -> proxy -> layout -> Server Component đọc data -> Client Component hydrate phần Kanban | `src/proxy.ts`, `src/app/(workspace)/dashboard/page.tsx`, `src/components/task-board.tsx` | Cần chụp ảnh |
 | 5 | Dynamic route + not-found | Tầng 1B | Trang chi tiết `/tasks/[id]`, id sai hoặc không thuộc user hiện tại gọi `notFound()` | `src/app/(workspace)/tasks/[id]/page.tsx`, `src/app/(workspace)/tasks/[id]/not-found.tsx` | Đã có |
-| 6 | Loading/error boundary | Tầng 1B | Dashboard và task detail có `loading.tsx`, dashboard có `error.tsx` | `src/app/(workspace)/dashboard/loading.tsx`, `src/app/(workspace)/dashboard/error.tsx`, `src/app/(workspace)/tasks/[id]/loading.tsx` | Đã có |
+| 6 | Loading/error boundary | Tầng 1B | Dashboard và task detail đều có trạng thái loading/error; task detail có thêm not-found cho id sai | `src/app/(workspace)/dashboard/loading.tsx`, `src/app/(workspace)/dashboard/error.tsx`, `src/app/(workspace)/tasks/[id]/loading.tsx`, `src/app/(workspace)/tasks/[id]/error.tsx`, `src/app/(workspace)/tasks/[id]/not-found.tsx` | Đã có |
 | 7 | Server Action cho mutation | Tầng 1B | Đăng nhập, đăng ký, thêm task, xóa task, đổi trạng thái, cập nhật task | `src/app/actions.ts`, `src/components/create-task-form.tsx`, `src/components/task-board.tsx` | Đã có |
 | 8 | Caching và revalidation | Tầng 1B | Cache danh sách task 60 giây; mutation gọi `updateTag`/`revalidatePath` | `src/lib/task-store.ts`, `src/app/actions.ts` | Đã có |
 | 9 | Route Handler | Tầng 1B | `/api/health` kiểm tra server, `/api/tasks` trả JSON task của user đang đăng nhập | `src/app/api/health/route.ts`, `src/app/api/tasks/route.ts` | Đã có |
-| 10 | Proxy | Tầng 1B | Bảo vệ `/dashboard` và `/tasks`, redirect tới `/login` nếu chưa có cookie | `src/proxy.ts`, `src/app/(auth)/login/page.tsx` | Đã có |
+| 10 | Proxy | Tầng 1B | Bảo vệ `/dashboard` và `/tasks`, xác minh token phiên rồi redirect tới `/login` nếu phiên thiếu hoặc sai | `src/proxy.ts`, `src/lib/session.ts`, `src/app/(auth)/login/page.tsx` | Đã có |
 | 11 | Suspense/streaming | Tầng 1B | `TaskInsights` được bọc bởi `Suspense` để có fallback khi dashboard tải tổng quan | `src/app/(workspace)/dashboard/page.tsx`, `src/components/task-insights.tsx` | Đã có |
 | 12 | Quản lý phiên bản | Tầng 2 | Dùng Git, commit đều, không dồn cuối kỳ | Git log/Insights | Cần nhóm thực hiện |
 | 13 | Khả năng chạy lại | Tầng 2 | README, package scripts, `.env.example`, dữ liệu JSON mẫu | `README.md`, `.env.example`, `data/users.json`, `data/tasks.json` | Đã có |
 | 14 | Quản lý bí mật | Tầng 2 | Không commit `.env`, chỉ có `.env.example` | `.gitignore`, `.env.example` | Đã có |
 | 15 | Kiểm thử/health check | Tầng 2 | Route `/api/health`, có thể bổ sung test sau | `src/app/api/health/route.ts` | Đã có |
-| 16 | Bảo mật cơ bản | Tầng 2 | Proxy bảo vệ route, Server Action kiểm tra user trước khi mutation | `src/proxy.ts`, `src/app/actions.ts`, `src/lib/auth.ts` | Đã có |
+| 16 | Bảo mật cơ bản | Tầng 2 | Cookie phiên ký HMAC/HttpOnly; proxy kiểm tra token và Server Action kiểm tra user trước mutation | `src/proxy.ts`, `src/lib/session.ts`, `src/app/actions.ts`, `src/lib/auth.ts` | Đã có |
 | 17 | Tầng dữ liệu | Tầng 2 | JSON file có `userId` để tách task theo từng tài khoản | `data/users.json`, `data/tasks.json`, `src/lib/task-store.ts`, `src/lib/auth.ts` | Đã có |
 | 18 | Kéo thả Kanban | Tầng 3 | Dùng `dnd-kit`, PointerSensor/KeyboardSensor, lưu thứ tự qua Server Action | `src/components/task-board.tsx` | Đã có |
 | 19 | Optimistic UI | Tầng 3 | UI đổi trước, Server Action lưu sau, có trạng thái pending | `src/components/task-board.tsx` | Đã có |

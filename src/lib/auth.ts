@@ -7,9 +7,18 @@ import path from "node:path";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const sessionCookieName = "taskflow_user_id";
+import {
+  createSessionToken,
+  sessionCookieName,
+  sessionMaxAge,
+  verifySessionToken
+} from "./session";
 
-const usersFile = path.join(process.cwd(), "data", "users.json");
+const configuredDataDirectory = process.env.TASKFLOW_DATA_DIR?.trim();
+const dataDirectory = configuredDataDirectory
+  ? path.resolve(process.cwd(), configuredDataDirectory)
+  : path.join(process.cwd(), "data");
+const usersFile = path.join(dataDirectory, "users.json");
 
 export interface StoredUser {
   id: string;
@@ -86,14 +95,20 @@ export async function createUser(input: {
 
 export async function getCurrentUser() {
   const cookieStore = await cookies();
-  const userId = cookieStore.get(sessionCookieName)?.value;
+  const token = cookieStore.get(sessionCookieName)?.value;
 
-  if (!userId) {
+  if (!token) {
+    return null;
+  }
+
+  const session = verifySessionToken(token);
+
+  if (!session) {
     return null;
   }
 
   const users = await readUsersRaw();
-  const user = users.find((item) => item.id === userId);
+  const user = users.find((item) => item.id === session.userId);
   return user ? toAuthUser(user) : null;
 }
 
@@ -110,12 +125,12 @@ export async function requireCurrentUser() {
 export async function setUserSession(userId: string) {
   const cookieStore = await cookies();
 
-  cookieStore.set(sessionCookieName, userId, {
+  cookieStore.set(sessionCookieName, createSessionToken(userId), {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7
+    maxAge: sessionMaxAge
   });
 }
 
@@ -123,5 +138,5 @@ export async function clearUserSession() {
   const cookieStore = await cookies();
 
   cookieStore.delete(sessionCookieName);
-  cookieStore.delete("taskflow_session");
+  cookieStore.delete("taskflow_user_id");
 }

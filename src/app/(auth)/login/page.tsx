@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { loginAction } from "@/app/actions";
+import { getCurrentUser } from "@/lib/auth";
 
 export const metadata = {
   title: "Đăng nhập"
@@ -14,10 +16,20 @@ const errorMessages: Record<string, string> = {
 export default async function LoginPage({
   searchParams
 }: {
-  searchParams: Promise<{ error?: string | string[] }>;
+  searchParams: Promise<{
+    error?: string | string[];
+    next?: string | string[];
+  }>;
 }) {
-  const { error } = await searchParams;
+  const user = await getCurrentUser();
+
+  if (user) {
+    redirect("/dashboard");
+  }
+
+  const { error, next } = await searchParams;
   const errorCode = Array.isArray(error) ? error[0] : error;
+  const nextPath = Array.isArray(next) ? next[0] : next;
 
   return (
     <main className="auth-page">
@@ -33,6 +45,7 @@ export default async function LoginPage({
         ) : null}
 
         <form action={loginAction} className="form-stack">
+          <input name="next" type="hidden" value={nextPath ?? ""} />
           <div className="field">
             <label htmlFor="email">Email</label>
             <input

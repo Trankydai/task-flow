@@ -460,6 +460,13 @@ select:focus-visible {
   margin-top: 12px;
 }
 
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
 .icon-button,
 .primary-button,
 .ghost-button,

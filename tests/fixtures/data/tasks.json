@@ -1,0 +1,30 @@
+[
+  {
+    "id": "task-e2e-an-private",
+    "title": "Công việc riêng của An",
+    "description": "Dữ liệu nền phục vụ kiểm thử phân quyền cho tài khoản An.",
+    "status": "todo",
+    "priority": "medium",
+    "owner": "Nguyễn Minh An",
+    "dueDate": "2026-12-20",
+    "order": 10,
+    "tags": ["E2E", "An"],
+    "createdAt": "2026-10-01T00:00:00.000Z",
+    "updatedAt": "2026-10-01T00:00:00.000Z",
+    "userId": "user-e2e-an"
+  },
+  {
+    "id": "task-e2e-binh-private",
+    "title": "Công việc riêng của Bình",
+    "description": "Dữ liệu nền không được hiển thị cho tài khoản An.",
+    "status": "review",
+    "priority": "high",
+    "owner": "Trần Gia Bình",
+    "dueDate": "2026-12-22",
+    "order": 10,
+    "tags": ["E2E", "Bình"],
+    "createdAt": "2026-10-01T00:00:00.000Z",
+    "updatedAt": "2026-10-01T00:00:00.000Z",
+    "userId": "user-e2e-binh"
+  }
+]

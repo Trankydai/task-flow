@@ -39,6 +39,26 @@ function getTags(formData: FormData) {
   ).slice(0, 6);
 }
 
+function getSafeRedirectPath(formData: FormData) {
+  const nextPath = getString(formData, "next");
+  const isWorkspacePath =
+    nextPath === "/dashboard" ||
+    nextPath.startsWith("/dashboard/") ||
+    nextPath.startsWith("/tasks/");
+
+  return isWorkspacePath ? nextPath : "/dashboard";
+}
+
+function getLoginErrorPath(error: "missing" | "invalid", nextPath: string) {
+  const params = new URLSearchParams({ error });
+
+  if (nextPath !== "/dashboard") {
+    params.set("next", nextPath);
+  }
+
+  return `/login?${params.toString()}`;
+}
+
 function refreshTaskRoutes() {
   updateTag("tasks");
   revalidatePath("/dashboard");
@@ -48,19 +68,20 @@ function refreshTaskRoutes() {
 export async function loginAction(formData: FormData) {
   const email = getString(formData, "email").toLowerCase();
   const password = getString(formData, "password");
+  const nextPath = getSafeRedirectPath(formData);
 
   if (!email || !password) {
-    redirect("/login?error=missing");
+    redirect(getLoginErrorPath("missing", nextPath));
   }
 
   const user = await findUserByEmail(email);
 
   if (!user || user.passwordHash !== hashPassword(password)) {
-    redirect("/login?error=invalid");
+    redirect(getLoginErrorPath("invalid", nextPath));
   }
 
   await setUserSession(user.id);
-  redirect("/dashboard");
+  redirect(nextPath);
 }
 
 export async function registerAction(formData: FormData) {
