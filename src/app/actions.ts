@@ -13,9 +13,11 @@ import {
   setUserSession
 } from "@/lib/auth";
 import {
+  archiveTask as archiveTaskInStore,
   createTask,
   deleteTask as deleteTaskInStore,
   reorderTasks as reorderTasksInStore,
+  restoreTask as restoreTaskInStore,
   updateTaskDetails,
   updateTaskStatus as updateTaskStatusInStore
 } from "@/lib/task-store";
@@ -42,6 +44,7 @@ function getTags(formData: FormData) {
 function refreshTaskRoutes() {
   updateTag("tasks");
   revalidatePath("/dashboard");
+  revalidatePath("/archive");
   revalidatePath("/tasks/[id]", "page");
 }
 
@@ -134,7 +137,13 @@ export async function updateTaskStatus(id: string, status: TaskStatus) {
     throw new Error("Trạng thái công việc không hợp lệ.");
   }
 
-  const updated = await updateTaskStatusInStore(id, status, user.id);
+  const updated = await updateTaskStatusInStore(
+    id,
+    status,
+    user.id,
+    user.name,
+    "Cập nhật từ bảng Kanban"
+  );
 
   if (!updated) {
     throw new Error("Không tìm thấy công việc của bạn.");
@@ -161,6 +170,7 @@ export async function updateTaskAction(id: string, formData: FormData) {
   const owner = getString(formData, "owner");
   const dueDate = getString(formData, "dueDate");
   const priority = getString(formData, "priority") as TaskPriority;
+  const status = getString(formData, "status") as TaskStatus;
   const tags = getTags(formData);
 
   if (!title || !description || !owner || !dueDate) {
@@ -179,9 +189,11 @@ export async function updateTaskAction(id: string, formData: FormData) {
       owner,
       dueDate,
       priority,
+      status: taskStatuses.includes(status) ? status : undefined,
       tags
     },
-    user.id
+    user.id,
+    user.name
   );
 
   if (!updated) {
@@ -190,6 +202,33 @@ export async function updateTaskAction(id: string, formData: FormData) {
 
   refreshTaskRoutes();
   redirect(`/tasks/${id}`);
+}
+
+export async function archiveTaskAction(id: string) {
+  const user = await requireCurrentUser();
+  const archived = await archiveTaskInStore(id, user.id, user.name);
+
+  if (!archived) {
+    throw new Error("Không tìm thấy công việc của bạn.");
+  }
+
+  refreshTaskRoutes();
+}
+
+export async function archiveTaskAndRedirectAction(id: string) {
+  await archiveTaskAction(id);
+  redirect("/archive");
+}
+
+export async function restoreTaskAction(id: string) {
+  const user = await requireCurrentUser();
+  const restored = await restoreTaskInStore(id, user.id, user.name);
+
+  if (!restored) {
+    throw new Error("Không tìm thấy công việc của bạn.");
+  }
+
+  refreshTaskRoutes();
 }
 
 export async function deleteTaskAction(id: string) {

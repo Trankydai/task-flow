@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { logoutAction } from "@/app/actions";
 import { requireCurrentUser } from "@/lib/auth";
+import { getArchivedTasksCount } from "@/lib/task-store";
 
 export default async function WorkspaceLayout({
   children
@@ -9,6 +10,7 @@ export default async function WorkspaceLayout({
   children: React.ReactNode;
 }>) {
   const user = await requireCurrentUser();
+  const archivedCount = await getArchivedTasksCount(user.id);
 
   return (
     <div className="app-shell">
@@ -19,7 +21,13 @@ export default async function WorkspaceLayout({
         </div>
         <nav aria-label="Điều hướng khu làm việc">
           <Link className="sidebar-link" href="/dashboard">
-            Bảng công việc
+            <span>Bảng công việc</span>
+          </Link>
+          <Link className="sidebar-link" href="/archive">
+            <span>Kho lưu trữ</span>
+            {archivedCount > 0 ? (
+              <span className="sidebar-badge">{archivedCount}</span>
+            ) : null}
           </Link>
         </nav>
         <div className="sidebar-user">
