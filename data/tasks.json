@@ -3,15 +3,46 @@
     "id": "task-requirements",
     "title": "Hoàn thiện đặc tả yêu cầu",
     "description": "Tổng hợp chức năng chính, vai trò người dùng và luồng xử lý cho hệ thống quản lý công việc.",
-    "status": "todo",
+    "status": "done",
     "priority": "high",
     "owner": "Trần Kỳ Đại",
     "dueDate": "2026-10-07",
     "order": 10,
-    "tags": ["Phân tích", "Báo cáo"],
+    "tags": [
+      "Phân tích",
+      "Báo cáo"
+    ],
     "createdAt": "2026-10-05T00:00:00.000Z",
-    "updatedAt": "2026-10-05T00:00:00.000Z",
-    "userId": "user-dai"
+    "updatedAt": "2026-10-29T07:46:31.173Z",
+    "userId": "user-dai",
+    "statusHistory": [
+      {
+        "id": "init-task-requirements",
+        "fromStatus": null,
+        "toStatus": "todo",
+        "changedAt": "2026-10-05T00:00:00.000Z",
+        "changedBy": "Trần Kỳ Đại",
+        "note": "Khởi tạo công việc"
+      },
+      {
+        "id": "hist-cd8d65fe-c456-4d72-b6b9-eb277b8c8b06",
+        "fromStatus": "todo",
+        "toStatus": "review",
+        "changedAt": "2026-10-29T07:39:24.023Z",
+        "changedBy": "Trần Kỳ Đại",
+        "note": "Cập nhật từ bảng Kanban"
+      },
+      {
+        "id": "hist-1906b2ea-e37f-4149-b40f-03bc71e9958b",
+        "fromStatus": "review",
+        "toStatus": "done",
+        "changedAt": "2026-10-29T07:46:31.087Z",
+        "changedBy": "Trần Kỳ Đại",
+        "note": "Cập nhật từ bảng Kanban"
+      }
+    ],
+    "isArchived": false,
+    "archivedAt": null
   },
   {
     "id": "task-demo-video",
@@ -21,11 +52,50 @@
     "priority": "medium",
     "owner": "Trần Kỳ Đại",
     "dueDate": "2026-10-16",
-    "order": 10,
-    "tags": ["Demo", "Nộp bài"],
+    "order": 20,
+    "tags": [
+      "Demo",
+      "Nộp bài"
+    ],
     "createdAt": "2026-10-05T00:00:00.000Z",
-    "updatedAt": "2026-10-05T00:00:00.000Z",
-    "userId": "user-dai"
+    "updatedAt": "2026-10-29T07:46:31.173Z",
+    "userId": "user-dai",
+    "statusHistory": [
+      {
+        "id": "init-task-demo-video",
+        "fromStatus": null,
+        "toStatus": "todo",
+        "changedAt": "2026-10-05T00:00:00.000Z",
+        "changedBy": "Trần Kỳ Đại",
+        "note": "Khởi tạo công việc"
+      },
+      {
+        "id": "hist-65003ec0-8415-427c-af1e-ee7da6ded503",
+        "fromStatus": "todo",
+        "toStatus": "doing",
+        "changedAt": "2026-10-29T07:39:22.351Z",
+        "changedBy": "Trần Kỳ Đại",
+        "note": "Cập nhật từ bảng Kanban"
+      },
+      {
+        "id": "hist-b0aa38fb-e297-432e-b300-2fe67220baf6",
+        "fromStatus": "doing",
+        "toStatus": "todo",
+        "changedAt": "2026-10-29T07:46:04.205Z",
+        "changedBy": "Trần Kỳ Đại",
+        "note": "Cập nhật từ bảng Kanban"
+      },
+      {
+        "id": "hist-371ed8e5-2ef3-4931-b478-34a4ebcf636b",
+        "fromStatus": "todo",
+        "toStatus": "done",
+        "changedAt": "2026-10-29T07:46:25.578Z",
+        "changedBy": "Trần Kỳ Đại",
+        "note": "Cập nhật từ bảng Kanban"
+      }
+    ],
+    "isArchived": false,
+    "archivedAt": null
   },
   {
     "id": "task-kanban-ui",
@@ -36,10 +106,25 @@
     "owner": "Lê Văn Hoàng",
     "dueDate": "2026-10-10",
     "order": 10,
-    "tags": ["Giao diện", "Kanban"],
+    "tags": [
+      "Giao diện",
+      "Kanban"
+    ],
     "createdAt": "2026-10-05T00:00:00.000Z",
     "updatedAt": "2026-10-05T00:00:00.000Z",
-    "userId": "user-hoang"
+    "userId": "user-hoang",
+    "statusHistory": [
+      {
+        "id": "init-task-kanban-ui",
+        "fromStatus": null,
+        "toStatus": "doing",
+        "changedAt": "2026-10-05T00:00:00.000Z",
+        "changedBy": "Lê Văn Hoàng",
+        "note": "Khởi tạo công việc"
+      }
+    ],
+    "isArchived": false,
+    "archivedAt": null
   },
   {
     "id": "task-report",
@@ -50,9 +135,184 @@
     "owner": "Lê Hoài Lộc",
     "dueDate": "2026-10-14",
     "order": 10,
-    "tags": ["Tài liệu", "Kiểm tra"],
+    "tags": [
+      "Tài liệu",
+      "Kiểm tra"
+    ],
     "createdAt": "2026-10-05T00:00:00.000Z",
     "updatedAt": "2026-10-05T00:00:00.000Z",
-    "userId": "user-loc"
+    "userId": "user-loc",
+    "statusHistory": [
+      {
+        "id": "init-task-report",
+        "fromStatus": null,
+        "toStatus": "review",
+        "changedAt": "2026-10-05T00:00:00.000Z",
+        "changedBy": "Lê Hoài Lộc",
+        "note": "Khởi tạo công việc"
+      }
+    ],
+    "isArchived": false,
+    "archivedAt": null
+  },
+  {
+    "id": "task-a30bb096-ca77-45c2-b46b-1af0a7ef91f4",
+    "title": "xcczxcxzc",
+    "description": "xz",
+    "owner": "Trần Kỳ Đại",
+    "dueDate": "2026-10-01",
+    "status": "done",
+    "priority": "high",
+    "order": 10,
+    "tags": [
+      "xzxxxx"
+    ],
+    "createdAt": "2026-10-29T07:32:14.087Z",
+    "updatedAt": "2026-10-29T07:46:11.401Z",
+    "userId": "user-dai",
+    "statusHistory": [
+      {
+        "id": "init-task-a30bb096-ca77-45c2-b46b-1af0a7ef91f4",
+        "fromStatus": null,
+        "toStatus": "todo",
+        "changedAt": "2026-10-29T07:32:14.087Z",
+        "changedBy": "Trần Kỳ Đại",
+        "note": "Khởi tạo công việc"
+      },
+      {
+        "id": "hist-b7d28f68-27ff-41f0-a66b-e679d8eaf983",
+        "fromStatus": "todo",
+        "toStatus": "done",
+        "changedAt": "2026-10-29T07:39:26.128Z",
+        "changedBy": "Trần Kỳ Đại",
+        "note": "Cập nhật từ bảng Kanban"
+      },
+      {
+        "id": "hist-0bb8c4dc-a9c2-4916-97e7-277e9ae9c261",
+        "fromStatus": "done",
+        "toStatus": "done",
+        "changedAt": "2026-10-29T07:46:11.401Z",
+        "changedBy": "Trần Kỳ Đại",
+        "note": "Lưu trữ công việc đã hoàn thành"
+      }
+    ],
+    "isArchived": true,
+    "archivedAt": "2026-10-29T07:46:11.401Z"
+  },
+  {
+    "id": "task-0f828696-dd00-47af-8719-3f4e93ea9da7",
+    "title": "sadas",
+    "description": "á",
+    "owner": "Lê văn Hoàngá",
+    "dueDate": "2026-10-01",
+    "status": "done",
+    "priority": "medium",
+    "order": 10,
+    "tags": [
+      "sad"
+    ],
+    "createdAt": "2026-10-29T07:47:09.153Z",
+    "updatedAt": "2026-10-29T07:47:55.888Z",
+    "userId": "user-175112af-fd5a-40d8-8bb2-785fa77e040a",
+    "statusHistory": [
+      {
+        "id": "hist-290eadcc-19a4-461b-a1a0-17873cc0f913",
+        "fromStatus": null,
+        "toStatus": "todo",
+        "changedAt": "2026-10-29T07:47:09.153Z",
+        "changedBy": "Lê văn Hoàngá",
+        "note": "Khởi tạo công việc"
+      },
+      {
+        "id": "hist-a82a9710-8478-41b6-9f93-e141a83e622e",
+        "fromStatus": "todo",
+        "toStatus": "done",
+        "changedAt": "2026-10-29T07:47:44.838Z",
+        "changedBy": "Lê văn Hoàng",
+        "note": "Cập nhật từ bảng Kanban"
+      },
+      {
+        "id": "hist-1d067d3c-d698-4980-80e5-2f41d1d4db0a",
+        "fromStatus": "done",
+        "toStatus": "done",
+        "changedAt": "2026-10-29T07:47:46.814Z",
+        "changedBy": "Lê văn Hoàng",
+        "note": "Lưu trữ công việc đã hoàn thành"
+      },
+      {
+        "id": "hist-cd07b010-8004-4b4c-b10c-714c7dc54dbb",
+        "fromStatus": "done",
+        "toStatus": "done",
+        "changedAt": "2026-10-29T07:47:52.250Z",
+        "changedBy": "Lê văn Hoàng",
+        "note": "Khôi phục từ kho lưu trữ về bảng công việc"
+      },
+      {
+        "id": "hist-fb46fa8f-3930-49b2-9f9b-d3612b367d06",
+        "fromStatus": "done",
+        "toStatus": "done",
+        "changedAt": "2026-10-29T07:47:55.888Z",
+        "changedBy": "Lê văn Hoàng",
+        "note": "Lưu trữ công việc đã hoàn thành"
+      }
+    ],
+    "isArchived": true,
+    "archivedAt": "2026-10-29T07:47:55.888Z"
+  },
+  {
+    "id": "task-8db054f0-eb76-4e02-9707-71e5e06e4235",
+    "title": "ádas",
+    "description": "ádasd",
+    "owner": "Lê văn Hoàng",
+    "dueDate": "2026-10-01",
+    "status": "todo",
+    "priority": "high",
+    "order": 10,
+    "tags": [
+      "ád"
+    ],
+    "createdAt": "2026-10-29T07:47:18.948Z",
+    "updatedAt": "2026-10-29T07:47:45.026Z",
+    "userId": "user-175112af-fd5a-40d8-8bb2-785fa77e040a",
+    "statusHistory": [
+      {
+        "id": "hist-a2fb6e3d-de47-4a67-9dc2-8a83acc3e96e",
+        "fromStatus": null,
+        "toStatus": "todo",
+        "changedAt": "2026-10-29T07:47:18.948Z",
+        "changedBy": "Lê văn Hoàng",
+        "note": "Khởi tạo công việc"
+      }
+    ],
+    "isArchived": false,
+    "archivedAt": null
+  },
+  {
+    "id": "task-9166d715-9da0-483d-9257-83e6c5df8434",
+    "title": "ád",
+    "description": "dsa",
+    "owner": "Lê văn Hoàng",
+    "dueDate": "2026-10-02",
+    "status": "todo",
+    "priority": "high",
+    "order": 20,
+    "tags": [
+      "sda"
+    ],
+    "createdAt": "2026-10-29T07:47:30.077Z",
+    "updatedAt": "2026-10-29T07:47:45.026Z",
+    "userId": "user-175112af-fd5a-40d8-8bb2-785fa77e040a",
+    "statusHistory": [
+      {
+        "id": "hist-f0cb1ed3-88ae-4225-ba5d-bd6f621f37a5",
+        "fromStatus": null,
+        "toStatus": "todo",
+        "changedAt": "2026-10-29T07:47:30.077Z",
+        "changedBy": "Lê văn Hoàng",
+        "note": "Khởi tạo công việc"
+      }
+    ],
+    "isArchived": false,
+    "archivedAt": null
   }
 ]
