@@ -183,6 +183,18 @@ export async function getArchivedTasksCount(userId: string) {
     .length;
 }
 
+export async function getAllUserTasks(userId: string) {
+  const tasks = await readTasksRaw();
+  return tasks
+    .filter((task) => task.userId === userId)
+    .sort(
+      (a, b) =>
+        new Date(b.updatedAt || b.createdAt).getTime() -
+        new Date(a.updatedAt || a.createdAt).getTime()
+    )
+    .map(toTask);
+}
+
 export async function getTaskById(id: string, userId: string) {
   const tasks = await readTasksRaw();
   const task = tasks.find((item) => item.id === id && item.userId === userId);

@@ -23,6 +23,8 @@ Bảng này bám theo yêu cầu 3 tầng trong tài liệu môn học. Khi nộ
 | 17 | Tầng dữ liệu | Tầng 2 | JSON file có `userId` để tách task theo từng tài khoản | `data/users.json`, `data/tasks.json`, `src/lib/task-store.ts`, `src/lib/auth.ts` | Đã có |
 | 18 | Kéo thả Kanban | Tầng 3 | Dùng `dnd-kit`, PointerSensor/KeyboardSensor, lưu thứ tự qua Server Action | `src/components/task-board.tsx` | Đã có |
 | 19 | Optimistic UI | Tầng 3 | UI đổi trước, Server Action lưu sau, có trạng thái pending | `src/components/task-board.tsx` | Đã có |
+| 20 | Bảng phân tích tiến độ & Quản lý hiệu suất | Tầng 1B / Tầng 2 | Route `/analytics`, tổng hợp KPI, phân bổ trạng thái/ưu tiên, cảnh báo quá hạn và nhật ký kiểm toán | `src/app/(workspace)/analytics/page.tsx`, `src/lib/task-store.ts`, `src/app/globals.css` | Đã có (Lê Hoài Lộc) |
+| 21 | Kiểm thử tự động E2E cho Analytics & Navigation | Tầng 2 | Kiểm thử bảo vệ route `/analytics`, điều hướng sidebar, hiển thị KPI & audit log | `tests/e2e/analytics.spec.ts` | Đã có (Lê Hoài Lộc) |
 
 ## Câu hỏi tự kiểm Next.js
 

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { sessionCookieName, verifySessionToken } from "@/lib/session";
 
-const protectedPrefixes = ["/dashboard", "/tasks"];
+const protectedPrefixes = ["/dashboard", "/tasks", "/archive", "/analytics"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -23,5 +23,10 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/tasks/:path*"]
+  matcher: [
+    "/dashboard/:path*",
+    "/tasks/:path*",
+    "/archive/:path*",
+    "/analytics/:path*"
+  ]
 };
