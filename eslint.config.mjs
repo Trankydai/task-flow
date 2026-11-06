@@ -7,9 +7,15 @@ export default defineConfig([
   ...nextTs,
   globalIgnores([
     ".agents/**",
+    ".docx_chuong_8_9_work/**",
+    ".playwright-data/**",
     ".next/**",
+    "blob-report/**",
     "node_modules/**",
     "out/**",
+    "playwright-report/**",
+    "test-results/**",
+    "tmp/**",
     "dist/**",
     "prisma/**",
     "next-env.d.ts"

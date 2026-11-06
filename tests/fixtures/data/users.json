@@ -1,0 +1,20 @@
+[
+  {
+    "id": "user-e2e-an",
+    "name": "Nguyễn Minh An",
+    "email": "an.e2e@taskflow.local",
+    "passwordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "role": "member",
+    "createdAt": "2026-10-01T00:00:00.000Z",
+    "updatedAt": "2026-10-01T00:00:00.000Z"
+  },
+  {
+    "id": "user-e2e-binh",
+    "name": "Trần Gia Bình",
+    "email": "binh.e2e@taskflow.local",
+    "passwordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "role": "member",
+    "createdAt": "2026-10-01T00:00:00.000Z",
+    "updatedAt": "2026-10-01T00:00:00.000Z"
+  }
+]

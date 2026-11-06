@@ -7,6 +7,11 @@ dist
 *.log
 coverage
 tsconfig.tsbuildinfo
+playwright-report
+test-results
+blob-report
+.playwright-data
+.vercel
 AGENTS.md
 CLAUDE.md
 prisma/
