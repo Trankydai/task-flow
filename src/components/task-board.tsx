@@ -21,12 +21,19 @@ import { CSS } from "@dnd-kit/utilities";
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 
-import { deleteTaskAction, reorderTasks, updateTaskStatus } from "@/app/actions";
+import {
+  archiveTaskAction,
+  deleteTaskAction,
+  reorderTasks,
+  updateTaskStatus
+} from "@/app/actions";
+import { TaskStatusHistoryView } from "@/components/task-status-history";
 import {
   priorityLabels,
   Task,
-  taskStatuses,
   TaskStatus,
+  TaskStatusHistory,
+  taskStatuses,
   statusLabels
 } from "@/lib/types";
 
@@ -62,6 +69,7 @@ function getNextStatus(status: TaskStatus, direction: -1 | 1) {
 
 export function TaskBoard({ tasks }: { tasks: Task[] }) {
   const [items, setItems] = useState(tasks);
+  const [historyTask, setHistoryTask] = useState<Task | null>(null);
   const [isPending, startTransition] = useTransition();
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -90,11 +98,35 @@ export function TaskBoard({ tasks }: { tasks: Task[] }) {
     const nextStatus = getNextStatus(currentStatus, direction);
     if (currentStatus === nextStatus) return;
 
+    const currentTask = items.find((t) => t.id === id);
+    const newHistoryEntry: TaskStatusHistory = {
+      id: `temp-${Date.now()}`,
+      fromStatus: currentStatus,
+      toStatus: nextStatus,
+      changedAt: new Date().toISOString(),
+      changedBy: "Bạn",
+      note: "Chuyển cột trên bảng Kanban"
+    };
+
     const nextItems = items.map((task) =>
-      task.id === id ? { ...task, status: nextStatus } : task
+      task.id === id
+        ? {
+            ...task,
+            status: nextStatus,
+            statusHistory: [...(task.statusHistory ?? []), newHistoryEntry]
+          }
+        : task
     );
 
     setItems(nextItems);
+    if (historyTask && historyTask.id === id) {
+      setHistoryTask({
+        ...historyTask,
+        status: nextStatus,
+        statusHistory: [...(currentTask?.statusHistory ?? []), newHistoryEntry]
+      });
+    }
+
     startTransition(async () => {
       await updateTaskStatus(id, nextStatus);
       await persistColumn(nextStatus, nextItems);
@@ -107,8 +139,25 @@ export function TaskBoard({ tasks }: { tasks: Task[] }) {
     }
 
     setItems((currentItems) => currentItems.filter((task) => task.id !== id));
+    if (historyTask && historyTask.id === id) {
+      setHistoryTask(null);
+    }
     startTransition(async () => {
       await deleteTaskAction(id);
+    });
+  }
+
+  function handleArchiveTask(id: string, title: string) {
+    if (!window.confirm(`Lưu trữ công việc đã hoàn thành "${title}"?`)) {
+      return;
+    }
+
+    setItems((currentItems) => currentItems.filter((task) => task.id !== id));
+    if (historyTask && historyTask.id === id) {
+      setHistoryTask(null);
+    }
+    startTransition(async () => {
+      await archiveTaskAction(id);
     });
   }
 
@@ -153,10 +202,21 @@ export function TaskBoard({ tasks }: { tasks: Task[] }) {
         0,
         targetColumn.findIndex((task) => task.id === overId)
       );
+
+      const dragHistoryEntry: TaskStatusHistory = {
+        id: `temp-${Date.now()}`,
+        fromStatus: activeStatus,
+        toStatus: overStatus,
+        changedAt: new Date().toISOString(),
+        changedBy: "Bạn",
+        note: "Kéo thả trên bảng Kanban"
+      };
+
       const movedTask = {
         ...activeTask,
         status: overStatus,
-        order: (insertIndex + 1) * 10
+        order: (insertIndex + 1) * 10,
+        statusHistory: [...(activeTask.statusHistory ?? []), dragHistoryEntry]
       };
       nextItems = nextItems
         .filter((task) => task.id !== activeId)
@@ -166,6 +226,10 @@ export function TaskBoard({ tasks }: { tasks: Task[] }) {
             : task
         )
         .concat(movedTask);
+
+      if (historyTask && historyTask.id === activeId) {
+        setHistoryTask(movedTask);
+      }
     }
 
     setItems(nextItems);
@@ -194,26 +258,77 @@ export function TaskBoard({ tasks }: { tasks: Task[] }) {
           {taskStatuses.map((status) => (
             <TaskColumn
               key={status}
+              onArchive={handleArchiveTask}
               onDelete={removeTask}
               onMove={moveWithButtons}
+              onShowHistory={(task) => setHistoryTask(task)}
               status={status}
               tasks={grouped[status]}
             />
           ))}
         </div>
       </DndContext>
+
+      {historyTask && (
+        <div
+          aria-labelledby="history-modal-title"
+          aria-modal="true"
+          className="modal-overlay"
+          onClick={() => setHistoryTask(null)}
+          role="dialog"
+        >
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div>
+                <span className="eyebrow">Lịch sử thay đổi</span>
+                <h3 id="history-modal-title">{historyTask.title}</h3>
+              </div>
+              <button
+                aria-label="Đóng"
+                className="modal-close-button"
+                onClick={() => setHistoryTask(null)}
+                type="button"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="modal-body">
+              <TaskStatusHistoryView
+                asPanel={false}
+                history={historyTask.statusHistory ?? []}
+              />
+            </div>
+            <div className="modal-footer">
+              <Link className="ghost-button" href={`/tasks/${historyTask.id}`}>
+                Xem trang chi tiết →
+              </Link>
+              <button
+                className="primary-button"
+                onClick={() => setHistoryTask(null)}
+                type="button"
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
 
 function TaskColumn({
+  onArchive,
   onDelete,
   onMove,
+  onShowHistory,
   status,
   tasks
 }: {
+  onArchive: (id: string, title: string) => void;
   onDelete: (id: string, title: string) => void;
   onMove: (id: string, direction: -1 | 1) => void;
+  onShowHistory: (task: Task) => void;
   status: TaskStatus;
   tasks: Task[];
 }) {
@@ -233,8 +348,10 @@ function TaskColumn({
         {tasks.map((task) => (
           <SortableTaskCard
             key={task.id}
+            onArchive={onArchive}
             onDelete={onDelete}
             onMove={onMove}
+            onShowHistory={onShowHistory}
             task={task}
           />
         ))}
@@ -244,12 +361,16 @@ function TaskColumn({
 }
 
 function SortableTaskCard({
+  onArchive,
   onDelete,
   onMove,
+  onShowHistory,
   task
 }: {
+  onArchive: (id: string, title: string) => void;
   onDelete: (id: string, title: string) => void;
   onMove: (id: string, direction: -1 | 1) => void;
+  onShowHistory: (task: Task) => void;
   task: Task;
 }) {
   const {
@@ -267,6 +388,7 @@ function SortableTaskCard({
   const statusIndex = taskStatuses.indexOf(task.status);
   const canMoveBack = statusIndex > 0;
   const canMoveForward = statusIndex < taskStatuses.length - 1;
+  const isDone = task.status === "done";
 
   return (
     <article
@@ -276,14 +398,26 @@ function SortableTaskCard({
       {...attributes}
       {...listeners}
     >
-      <h3>
-        <Link
-          href={`/tasks/${task.id}`}
+      <div className="card-top">
+        <h3>
+          <Link
+            href={`/tasks/${task.id}`}
+            onPointerDown={(event) => event.stopPropagation()}
+          >
+            {task.title}
+          </Link>
+        </h3>
+        <button
+          aria-label={`Xem lịch sử thay đổi của ${task.title}`}
+          className="history-trigger-button"
+          onClick={() => onShowHistory(task)}
           onPointerDown={(event) => event.stopPropagation()}
+          title="Xem lịch sử trạng thái"
+          type="button"
         >
-          {task.title}
-        </Link>
-      </h3>
+          🕒
+        </button>
+      </div>
       <p>{task.description}</p>
       <div className="card-meta">
         <span>{task.owner}</span>
@@ -311,17 +445,32 @@ function SortableTaskCard({
         >
           ←
         </button>
-        <button
-          disabled={!canMoveForward}
-          aria-label={`Chuyển ${task.title} sang cột sau`}
-          className="icon-button"
-          onClick={() => onMove(task.id, 1)}
-          onPointerDown={(event) => event.stopPropagation()}
-          title="Chuyển sang cột sau"
-          type="button"
-        >
-          →
-        </button>
+
+        {isDone ? (
+          <button
+            aria-label={`Lưu trữ ${task.title}`}
+            className="archive-card-button"
+            onClick={() => onArchive(task.id, task.title)}
+            onPointerDown={(event) => event.stopPropagation()}
+            title="Lưu trữ công việc này"
+            type="button"
+          >
+            📦 Lưu trữ
+          </button>
+        ) : (
+          <button
+            disabled={!canMoveForward}
+            aria-label={`Chuyển ${task.title} sang cột sau`}
+            className="icon-button"
+            onClick={() => onMove(task.id, 1)}
+            onPointerDown={(event) => event.stopPropagation()}
+            title="Chuyển sang cột sau"
+            type="button"
+          >
+            →
+          </button>
+        )}
+
         <button
           aria-label={`Xóa ${task.title}`}
           className="delete-button"

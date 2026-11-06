@@ -25,5 +25,14 @@
     "role": "member",
     "createdAt": "2026-10-05T00:00:00.000Z",
     "updatedAt": "2026-10-05T00:00:00.000Z"
+  },
+  {
+    "id": "user-175112af-fd5a-40d8-8bb2-785fa77e040a",
+    "name": "Lê văn Hoàng",
+    "email": "hoanglevan107@gmail.com",
+    "passwordHash": "bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a",
+    "role": "member",
+    "createdAt": "2026-10-29T07:46:58.632Z",
+    "updatedAt": "2026-10-29T07:46:58.632Z"
   }
 ]

@@ -4,6 +4,15 @@ export type TaskStatus = (typeof taskStatuses)[number];
 
 export type TaskPriority = "low" | "medium" | "high";
 
+export interface TaskStatusHistory {
+  id: string;
+  fromStatus: TaskStatus | null;
+  toStatus: TaskStatus;
+  changedAt: string;
+  changedBy?: string;
+  note?: string;
+}
+
 export interface Task {
   id: string;
   title: string;
@@ -16,6 +25,9 @@ export interface Task {
   tags: string[];
   createdAt: string;
   updatedAt: string;
+  statusHistory?: TaskStatusHistory[];
+  isArchived?: boolean;
+  archivedAt?: string | null;
 }
 
 export const statusLabels: Record<TaskStatus, string> = {
