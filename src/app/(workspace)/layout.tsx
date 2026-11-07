@@ -23,6 +23,9 @@ export default async function WorkspaceLayout({
           <Link className="sidebar-link" href="/dashboard">
             <span>Bảng công việc</span>
           </Link>
+          <Link className="sidebar-link" href="/analytics">
+            <span>Báo cáo & Phân tích</span>
+          </Link>
           <Link className="sidebar-link" href="/archive">
             <span>Kho lưu trữ</span>
             {archivedCount > 0 ? (
