@@ -31,10 +31,10 @@ test.describe("Bảng phân tích tiến độ & hiệu suất", () => {
     });
 
     await test.step("kiểm tra hiển thị các khối chỉ số KPI và phân bổ", async () => {
-      await expect(page.getByText("Tổng số công việc")).toBeVisible();
-      await expect(page.getByText("Tiến độ hoàn thành")).toBeVisible();
-      await expect(page.getByText("Cảnh báo quá hạn")).toBeVisible();
-      await expect(page.getByText("Việc ưu tiên cao")).toBeVisible();
+      await expect(page.getByText("Tổng số công việc", { exact: true })).toBeVisible();
+      await expect(page.getByText("Tiến độ hoàn thành", { exact: true })).toBeVisible();
+      await expect(page.getByText("Cảnh báo quá hạn", { exact: true })).toBeVisible();
+      await expect(page.getByText("Việc ưu tiên cao", { exact: true })).toBeVisible();
 
       await expect(
         page.getByRole("heading", {
